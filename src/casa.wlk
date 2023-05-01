@@ -52,12 +52,17 @@ object casa {
 		cuenta = tipoDeCuenta
 	}
 	
+	//para testeo
+	method cuentaActiva(){
+		return cuenta
+	}
+	
 	method gastar(importe){
 		cuenta.extraer(importe)
 	}
 	
 	method dineroDisponible(){
-		cuenta.saldo()
+		return cuenta.saldo()
 	}
 	
 	

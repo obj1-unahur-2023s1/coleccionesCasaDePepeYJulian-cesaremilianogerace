@@ -34,18 +34,20 @@ para lograr que la casa pueda comprar estas cosas nuevas, ¿qué hubo que cambia
 
 
 ## Cuenta bancaria
-Agreguemos al modelo objetos que representan diferentes _cuentas bancarias_. Estos objetos deben entender tres mensajes: `depositar(importe)`, `extraer(importe)`, y `saldo()`. 
-Al objeto que representa la casa hay que agregarle un atributo, que es la cuenta que se va a usar para pagar los gastos que se hagan. Por lo tanto, al comprar una cosa, hay que también extraer de la cuenta el precio de la cosa comprada.     
+Agreguemos al modelo objetos que representan diferentes _cuentas bancarias_. Estos objetos deben entender tres mensajes: `depositar(importe)`, `extraer(importe)`, y `saldo()`. [ok]
+Al objeto que representa la casa hay que agregarle un atributo, que es la cuenta que se va a usar para pagar los gastos que se hagan. Por lo tanto, al comprar una cosa, hay que también extraer de la cuenta el precio de la cosa comprada.
 
 
 Incluir tres cuentas:
-1. una **cuenta corriente**, tiene un atributo que es el saldo, al depositar suma al saldo, al extraer resta.
-1. una **cuenta con gastos**, también mantiene un saldo. Al depositar suma el importe indicado menos 200 pesos que son gastos de la operación. P.ej. si deposito 10000 pesos, el saldo aumenta en 9800. Al extraer, si se extraen 10000 pesos o menos hay un cargo de 200 pesos, si se extrae más de ese valor, la comisión es el 2% del importe a extraer. Entonces, si se extraen 5000 pesos, hay que restar 5200 del saldo, y si se extraen 20000, hay que restar 20400 (20000 más 400 que es el 2% de gastos de comisión).
+1. una **cuenta corriente**, tiene un atributo que es el saldo, al depositar suma al saldo, al extraer resta.[ok]
+1. una **cuenta con gastos**, también mantiene un saldo. Al depositar suma el importe indicado menos 200 pesos que son gastos de la operación. P.ej. si deposito 10000 pesos, el saldo aumenta en 9800. Al extraer, si se extraen 10000 pesos o menos hay un cargo de 200 pesos, si se extrae más de ese valor, la comisión es el 2% del importe a extraer.[ok]
+ Entonces, si se extraen 5000 pesos, hay que restar 5200 del saldo, y si se extraen 20000, hay que restar 20400 (20000 más 400 que es el 2% de gastos de comisión).
 1. una **cuenta combinada** que tiene dos cuentas, una _primaria_ y una _secundaria_. Si se deposita, el importe pasa a la primaria. Si se extrae es así: si la cuenta primaria tiene saldo suficiente se extrae de esa, y si no de la secundaria (vale suponer que la secundaria siempre tiene saldo). El saldo de la combinada es la suma del saldo de las dos. <br>
-P.ej. supongamos que configuramos la cuenta combinada así: la primaria es la cuenta corriente, la secundaria es la cuenta con gastos. Supongamos también que la cuenta corriente tiene 30000 pesos y la cuenta con gastos tiene 2000000. Así las cosas:
+P.ej. supongamos que configuramos la cuenta combinada así: la primaria es la cuenta corriente, la secundaria es la cuenta con gastos. Supongamos también que la cuenta corriente tiene 30000 pesos y la cuenta con gastos tiene 2000000. [ok]
+Así las cosas:
 	- El _saldo_ de la cuenta combinada es 2030000 pesos.
-	- Si se _depositan_ 10000 pesos en la cuenta combinada, van a la cuenta corriente (porque es la primaria), al depositarse este importe, su saldo pasa a 40000. 
-	- Si se _extraen_ 5000 pesos, salen de la cuenta corriente que es la primaria. Si se extraen 100000, salen de la cuenta con gastos, porque el saldo de la cuenta corriente no es suficiente.
+	- Si se _depositan_ 10000 pesos en la cuenta combinada, van a la cuenta corriente (porque es la primaria)[ok], al depositarse este importe, su saldo pasa a 40000. 
+	- Si se _extraen_ 5000 pesos, salen de la cuenta corriente que es la primaria. Si se extraen 100000, salen de la cuenta con gastos, porque el saldo de la cuenta corriente no es suficiente.[ok]
 	- **Desafío**: quién se anime a más, resolver la extracción de pesos restando el valor posible de la cuenta _primaria_ y el resto de la cuenta _secundaria_, considerando que la _primaria_ nunca pueda tener un saldo menor a 0 (cero). 
 
 Agregar en la casa los métodos `gastar(importe)`, que hace la extracción de la cuenta que esté usando, y `dineroDisponible()`, que es el saldo de la cuenta. 

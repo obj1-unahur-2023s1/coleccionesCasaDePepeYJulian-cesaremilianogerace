@@ -1,0 +1,92 @@
+import cosas.*
+import cuentas.*
+import casa.*
+
+test "operaciones con cuentas" {
+//cargamos saldo y configuramos
+	cuentaCombinada.configurarCuenta(cuentaCorriente,cuentaConGastos)
+	cuentaCombinada.depositar(200000)
+	cuentaConGastos.depositar(200200)
+//COMBINADA está activa
+	casa.cuentaActiva(cuentaCombinada)
+	assert.that(casa.cuentaActiva()==cuentaCombinada)
+
+//gastamos y cambia el saldo
+	casa.gastar(1000)
+	assert.equals(399000,casa.dineroDisponible())
+}
+
+test "compra 2 electrodomesticos"{
+	//cargamos saldo y configuramos
+	cuentaCombinada.configurarCuenta(cuentaCorriente,cuentaConGastos)
+	cuentaCombinada.depositar(200000)
+	cuentaConGastos.depositar(200200)
+	//COMBINADA está activa
+	casa.cuentaActiva(cuentaCombinada)
+	//compramos
+	casa.comprar(microondas)//$42k
+	casa.comprar(plancha)//$12k
+	assert.equals(346000,casa.dineroDisponible())
+	assert.equals(2,casa.cantidadDeCosasCompradas())
+	//metodos
+	assert.notThat(casa.tieneComida())
+	assert.that(casa.vieneDeEquiparse())
+	assert.notThat(casa.esDerrochona())
+	assert.that(casa.compraMasCara()==microondas)
+	assert.that(casa.electrodomesticosComprados() == [microondas,plancha])
+	assert.notThat(casa.malaEpoca())
+	assert.that(casa.queFaltaComprar([computadora,plancha])==[computadora])
+	assert.that(casa.faltaComida())
+}
+
+test "compra 3 comidas"{
+	//cargamos saldo y configuramos
+	cuentaCombinada.configurarCuenta(cuentaCorriente,cuentaConGastos)
+	cuentaCombinada.depositar(200000)
+	cuentaConGastos.depositar(200200)
+	//COMBINADA está activa
+	casa.cuentaActiva(cuentaCombinada)
+	//compramos
+	casa.comprar(tiraDeAsado)//$3k5
+	casa.comprar(milanesas)//$2k6
+	casa.comprar(cebollas)//$250
+	assert.equals(393650,casa.dineroDisponible())
+	//metodos
+	assert.equals(3,casa.cantidadDeCosasCompradas())
+	assert.that(casa.tieneComida())
+	assert.notThat(casa.vieneDeEquiparse())
+	assert.notThat(casa.esDerrochona())
+	assert.that(casa.compraMasCara()==tiraDeAsado)
+	assert.that(casa.electrodomesticosComprados() == [])
+	assert.that(casa.malaEpoca())
+	assert.that(casa.queFaltaComprar([cebollas,salsaTomate])==[salsaTomate])
+	assert.notThat(casa.faltaComida())
+}
+
+test "comprar 2 comidas y 2 electrodomesticos"{
+	//cargamos saldo y configuramos
+	cuentaCombinada.configurarCuenta(cuentaCorriente,cuentaConGastos)
+	cuentaCombinada.depositar(200000)
+	cuentaConGastos.depositar(200200)
+	//COMBINADA está activa
+	casa.cuentaActiva(cuentaCombinada)
+	//compramos
+	casa.comprar(tiraDeAsado)//$3k5
+	casa.comprar(milanesas)//$2k6
+	casa.comprar(microondas)//$42k
+	casa.comprar(computadora)//$250k
+	assert.equals(96900,casa.dineroDisponible())
+	assert.equals(151900,cuentaCorriente.saldo())
+	assert.equals(-55000,cuentaConGastos.saldo())
+	//metodos
+	assert.equals(4,casa.cantidadDeCosasCompradas())
+	assert.that(casa.tieneComida())
+	assert.that(casa.vieneDeEquiparse())
+	assert.that(casa.esDerrochona())
+	assert.that(casa.compraMasCara()==computadora)
+	assert.that(casa.electrodomesticosComprados() == [microondas,computadora])
+	assert.notThat(casa.malaEpoca())
+	assert.that(casa.queFaltaComprar([plancha,cebollas,salsaTomate,computadora])==[cebollas,plancha,salsaTomate])
+	assert.notThat(casa.faltaComida())
+	
+}

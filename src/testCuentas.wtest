@@ -1,0 +1,57 @@
+import cuentas.*
+test "cuentaCorriente deposita 100k, retira 98k" {
+	cuentaCorriente.depositar(100000)
+	cuentaCorriente.extraer(98000)
+	assert.equals(2000,cuentaCorriente.saldo())
+}
+
+test "cuentaCorriente deposita 100k, retira 101k" {
+	cuentaCorriente.depositar(100000)
+	cuentaCorriente.extraer(101000)
+	assert.equals(0,cuentaCorriente.saldo())
+}
+
+test "cuentaConGastos deposita 1200, retira 800" {
+	cuentaConGastos.depositar(1200)
+	assert.equals(1000,cuentaConGastos.saldo())
+	cuentaConGastos.extraer(800)
+	assert.equals(0,cuentaConGastos.saldo())
+}
+
+test "cuentaConGastos deposita 200k, retira 100k" {
+	cuentaConGastos.depositar(200000)
+	assert.equals(199800,cuentaConGastos.saldo())
+	cuentaConGastos.extraer(100000)
+	assert.equals(97800,cuentaConGastos.saldo())
+}
+
+test "cuenta combinada, [corriente,conGastos]" {
+	//seconfigura
+	cuentaCombinada.configurarCuenta(cuentaCorriente,cuentaConGastos)
+
+	//se depositan 1k, deben ir a la primaria. el saldo de combinada debe ser 1k
+	cuentaCombinada.depositar(1000)
+	assert.equals(1000,cuentaCorriente.saldo())
+	assert.that(cuentaCorriente.saldo() == cuentaCombinada.saldo())
+	
+	//deposito en secundaria 1200.
+	cuentaConGastos.depositar(1200)
+	
+	//extraemos 600, deberia sacarlo de la primaria
+	cuentaCombinada.extraer(600)
+	//la primaria en 400
+	assert.equals(400,cuentaCorriente.saldo())
+	//combinada en 1400, 400 de primaria + 1000 secundaria
+	assert.equals(1400,cuentaCombinada.saldo())
+	//extraemos 600, deberia sacarlo de la secundaria
+	cuentaCombinada.extraer(600)
+	//quedan 400 en la primaria
+	assert.equals(400,cuentaCorriente.saldo())
+	//quedan 200 en secundaria (600-200 extraidos)
+	assert.equals(200,cuentaConGastos.saldo())
+	//saldo combinada es 600
+	assert.equals(600,cuentaCombinada.saldo())
+	
+
+
+}

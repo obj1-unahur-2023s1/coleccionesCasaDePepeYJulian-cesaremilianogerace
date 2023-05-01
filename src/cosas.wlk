@@ -38,7 +38,7 @@ object milanesas {
 	method esElectrodomestico() { return false }	
 }
 
-object salaTomate {
+object salsaTomate {
 	method precio() { return 900 }
 	method esComida() { return true }
 	method esElectrodomestico() { return false }	

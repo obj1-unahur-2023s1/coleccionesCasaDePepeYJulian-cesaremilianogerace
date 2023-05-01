@@ -1,3 +1,5 @@
+import casa.*
+
 object cuentaCorriente {
 	var saldo = 0
 	method saldo(){return saldo}
@@ -30,7 +32,7 @@ object cuentaConGastos {
 }
 
 //orientada a listas
-object cuentaCombinada2 {
+object cuentaCombinada {
 	var cuentaCombinada = []
 	
 	method configurarCuenta(cuentaPrimaria,cuentaSecundaria){
@@ -45,7 +47,10 @@ object cuentaCombinada2 {
 	}
 	
 	method extraer(importe){
-		cuentaCombinada.find({ cuenta=>cuenta.saldo()>=importe}).extraer(importe)
+		if ( cuentaCombinada.first().saldo()>=importe){
+				cuentaCombinada.first().extraer(importe)
+		} else {cuentaCombinada.last().extraer(importe)}
+		//cuentaCombinada.find({ cuenta=>cuenta.saldo()>=importe}).extraer(importe)
 		//Extrae:  si la cuenta primaria tiene saldo suficiente se extrae de esa, y si no de la secundaria
 	}
 	

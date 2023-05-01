@@ -1,0 +1,30 @@
+import cosas.*
+
+test "dolar tiene un precio de venta de 500" {
+
+	assert.equals(500,dolar.precioDeVenta())
+}
+
+test "pack de comida milanesas+cebolla=$2850"{
+	//elegimos plato=milanesas aderezo=cebollas
+	packComida.elegirComida(milanesas,cebollas)
+	//el pack debe ser igual a la lista [milanesas,cebollas]
+	assert.that(packComida.pack() == [milanesas,cebollas])
+	//el precio del pack debe ser de 2600+250=2850
+	assert.equals(2850, packComida.precio())
+}
+
+test "probamos computadora, cama, salsaTomate"{
+	//salsaTomate
+	assert.equals(900,salsaTomate.precio())
+	assert.that(salsaTomate.esComida())
+	assert.notThat(salsaTomate.esElectrodomestico())
+	//cama
+	assert.equals(80000,cama.precio())
+	assert.notThat(cama.esComida())
+	assert.notThat(cama.esElectrodomestico())
+	//computadora
+	assert.equals(250000,computadora.precio())
+	assert.notThat(computadora.esComida())
+	assert.that(computadora.esElectrodomestico())
+}
