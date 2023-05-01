@@ -1,7 +1,9 @@
 import cosas.* //obviamente, vamos a usar los objetos del archivo cosas ;-)
+import cuentas.*
 
 object casa {
 	const cosas = []
+	var cuenta
 	
 	method comprar(cosa){
 		cosas.add(cosa)
@@ -13,7 +15,7 @@ object casa {
 	}
 	
 	method tieneComida(){
-		//return cosas.find( { cosa=>cosa.esComida() }) me devuelve el objeto 
+		//return cosas.find( { cosa=>cosa.esComida() }) MAL xq me devuelve el objeto 
 		return cosas.any( { cosa=>cosa.esComida() })
 	}
 	
@@ -38,24 +40,25 @@ object casa {
 		return cosas.all({cosa=>cosa.esComida()})
 	}
 	
-	method queFaltaComprar(lista){
+	method queFaltaComprar(lista){ //este no me salia
 		return lista.asSet().difference(cosas.asSet()).asList()
-		// cosas.contains(lista.map({l=>l}))
-		
-		//recibe una lista de cosas y devuelve las cosas de esa lista que aún no se han comprado
+		//convierte lista en conjunto y hace la diferencia de cosas como conjunto. luego la convierte en lista
 	}
 	
 	method faltaComida(){
 		return ( cosas.count({cosa=>cosa.esComida()}) < 2)
 	}
+	method cuentaActiva(tipoDeCuenta){
+		cuenta = tipoDeCuenta
+	}
+	
 	method gastar(importe){
-		//que hace la extracción de la cuenta que esté usando
+		cuenta.extraer(importe)
 	}
 	
 	method dineroDisponible(){
-		//que es el saldo de la cuenta	
+		cuenta.saldo()
 	}
-	
 	
 	
 }
